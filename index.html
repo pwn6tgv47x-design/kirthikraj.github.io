@@ -462,15 +462,232 @@
   ::-webkit-scrollbar-track { background: var(--dark); }
   ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 2px; }
 
+  /* ── TABLET (769px – 900px) ── */
   @media (max-width: 900px) {
     #hero { grid-template-columns: 1fr; }
-.hero-left { padding: 120px 32px 80px; }
-    #about, #work, #connect { padding: 80px 32px; }
+    .hero-left { padding: 120px 40px 80px; }
+    #about, #work, #connect { padding: 80px 40px; }
+    #interests, #personality, #goals { padding: 80px 40px !important; }
     .about-grid { grid-template-columns: 1fr; gap: 48px; }
-    .work-grid { grid-template-columns: 1fr; }
-    nav { padding: 20px 24px; }
-    .nav-links { gap: 20px; }
-    footer { padding: 24px 32px; flex-direction: column; gap: 12px; text-align: center; }
+    .work-grid { grid-template-columns: 1fr 1fr; }
+    nav { padding: 18px 28px; }
+    .nav-links { gap: 24px; }
+    footer { padding: 24px 40px; flex-direction: column; gap: 12px; text-align: center; }
+    #interests > div[style] { grid-template-columns: 1fr 1fr !important; }
+    #personality > div[style*="grid"] { grid-template-columns: 1fr !important; gap: 40px !important; }
+    #goals > div[style*="grid"] { grid-template-columns: 1fr !important; gap: 36px !important; }
+  }
+
+  /* ── MOBILE (≤ 640px) — cinematic mobile-first redesign ── */
+  @media (max-width: 640px) {
+
+    /* Hide desktop cursor — irrelevant on touch */
+    .cursor, .cursor-ring { display: none !important; }
+    body { cursor: auto; }
+
+    /* ── NAV ── */
+    nav {
+      padding: 14px 20px;
+    }
+    .nav-logo { font-size: 11px; letter-spacing: 3px; }
+    .nav-links { display: none; }
+
+    /* ── HERO ── */
+    #hero {
+      grid-template-columns: 1fr;
+      min-height: 100svh;
+    }
+    /* Tone down background — less muddy on small screens */
+    #heroCanvas { opacity: 0.5 !important; }
+    #hero-halftone { opacity: 0.45 !important; }
+    .orb1 { width: 280px !important; height: 280px !important; opacity: 0.5; }
+    .orb2 { width: 200px !important; height: 200px !important; opacity: 0.4; }
+    .orb3 { width: 160px !important; height: 160px !important; opacity: 0.35; }
+
+    .hero-left {
+      padding: 92px 24px 72px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-tag {
+      font-size: 9px;
+      letter-spacing: 3px;
+      margin-bottom: 18px;
+      gap: 10px;
+    }
+    .hero-tag::before { width: 20px; }
+
+    .hero-title {
+      font-size: clamp(52px, 15vw, 72px) !important;
+      line-height: 1.04;
+    }
+
+    .hero-subtitle {
+      font-size: 13px;
+      letter-spacing: 1px;
+      line-height: 1.9;
+      margin-top: 14px;
+      max-width: 100%;
+      color: rgba(232,224,208,0.5);
+    }
+
+    .hero-desc {
+      font-size: 14px;
+      line-height: 2;
+      margin-top: 16px;
+      max-width: 100%;
+      color: rgba(232,224,208,0.4);
+    }
+
+    .hero-ctas {
+      margin-top: 28px;
+      flex-direction: column;
+      gap: 12px;
+      align-items: stretch;
+    }
+    .btn-primary, .btn-outline {
+      padding: 18px 24px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .hero-stats {
+      margin-top: 36px;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+    .stat-num { font-size: 22px; }
+    .stat-label { font-size: 9px; letter-spacing: 1.5px; }
+    .stat-divider { display: none; }
+
+    /* ── SECTIONS BASE ── */
+    #about, #work, #connect {
+      padding: 64px 22px !important;
+    }
+    #interests, #personality, #goals {
+      padding: 64px 22px !important;
+    }
+
+    .section-header {
+      margin-bottom: 36px;
+      gap: 12px;
+    }
+    .section-title {
+      font-size: 20px !important;
+      letter-spacing: 2px;
+    }
+    .section-num { font-size: 10px; }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      grid-template-columns: 1fr !important;
+      gap: 44px;
+    }
+    .about-text p {
+      font-size: 16px !important;
+      line-height: 2.1;
+      margin-bottom: 22px;
+    }
+    .skills-grid { gap: 22px; }
+    .skill-name { font-size: 10px; letter-spacing: 1.5px; }
+    .skill-pct  { font-size: 10px; }
+
+    /* ── WORK CARDS ── */
+    .work-grid {
+      grid-template-columns: 1fr !important;
+      gap: 2px;
+    }
+    .work-card { padding: 36px 24px; }
+    .work-icon { font-size: 28px; margin-bottom: 16px; }
+    .work-title { font-size: 13px; letter-spacing: 1.5px; }
+    .work-desc  { font-size: 14px !important; line-height: 2; }
+    .work-num   { font-size: 36px; }
+    .work-tag   { font-size: 8px; }
+
+    /* ── INTERESTS (inline-style grid override) ── */
+    #interests > div[style] {
+      grid-template-columns: 1fr !important;
+      gap: 2px !important;
+      margin-bottom: 40px !important;
+    }
+
+    /* ── PERSONALITY (inline-style overrides) ── */
+    #personality > div[style*="180px"] {
+      font-size: 70px !important;
+    }
+    #personality > div[style*="grid"] {
+      grid-template-columns: 1fr !important;
+      gap: 36px !important;
+    }
+    #personality p[style*="22px"] {
+      font-size: 17px !important;
+      line-height: 1.95 !important;
+      margin-bottom: 20px !important;
+    }
+    #personality p[style*="17px"] {
+      font-size: 15px !important;
+      line-height: 2 !important;
+      margin-bottom: 18px !important;
+    }
+    /* Trait cards */
+    #personality div[style*="display:flex;align-items:center"] {
+      padding: 14px 16px !important;
+      gap: 12px !important;
+    }
+
+    /* ── GOALS (inline-style overrides) ── */
+    #goals > div[style*="grid"] {
+      grid-template-columns: 1fr !important;
+      gap: 40px !important;
+    }
+    #goals div[style*="font-size:15px"] {
+      font-size: 14px !important;
+      line-height: 1.8 !important;
+    }
+    #goals div[style*="font-size:11px"] {
+      font-size: 9px !important;
+    }
+
+    /* ── CONNECT ── */
+    #connect::before { font-size: 72px !important; }
+    .connect-title { letter-spacing: 2px; margin-bottom: 12px; }
+    .connect-sub   { font-size: 13px; letter-spacing: 1px; margin-bottom: 36px; }
+    .social-grid   { flex-direction: column; gap: 10px; }
+    .social-link {
+      padding: 18px 22px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+      justify-content: flex-start;
+    }
+    .social-icon { font-size: 16px; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 20px 22px !important;
+      flex-direction: column;
+      gap: 10px;
+      text-align: center;
+    }
+    .footer-text   { font-size: 9px; }
+    .footer-status { font-size: 9px; justify-content: center; }
+  }
+
+  /* ── SMALL PHONES (≤ 390px) ── */
+  @media (max-width: 390px) {
+    .hero-title { font-size: clamp(44px, 13vw, 60px) !important; }
+    .hero-subtitle { font-size: 12px; }
+    .hero-desc { font-size: 13px; }
+    .hero-stats { gap: 16px; }
+    .stat-num { font-size: 20px; }
+    #about, #work, #connect,
+    #interests, #personality, #goals { padding: 52px 18px !important; }
+    .work-card { padding: 28px 18px; }
+    .social-link { padding: 16px 18px; }
   }
 </style>
 </head>
