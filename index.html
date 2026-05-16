@@ -463,232 +463,294 @@
   ::-webkit-scrollbar-track { background: var(--dark); }
   ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 2px; }
 
-  /* ── TABLET (769px – 900px) ── */
+  /* ══════════════════════════════════════════════════════════
+     TABLET  ≤ 900px
+     Single-column hero, 2-col work grid, tightened padding
+  ══════════════════════════════════════════════════════════ */
   @media (max-width: 900px) {
     #hero { grid-template-columns: 1fr; }
     .hero-left { padding: 120px 40px 80px; }
     #about, #work, #connect { padding: 80px 40px; }
     #interests, #personality, #goals { padding: 80px 40px !important; }
-    .about-grid { grid-template-columns: 1fr; gap: 48px; }
-    .work-grid { grid-template-columns: 1fr 1fr; }
+    .about-grid { grid-template-columns: 1fr; gap: 52px; }
+    .work-grid  { grid-template-columns: 1fr 1fr; }
     nav { padding: 18px 28px; }
-    .nav-links { gap: 24px; }
+    .nav-links  { gap: 24px; }
     footer { padding: 24px 40px; flex-direction: column; gap: 12px; text-align: center; }
-    #interests > div[style] { grid-template-columns: 1fr 1fr !important; }
-    #personality > div[style*="grid"] { grid-template-columns: 1fr !important; gap: 40px !important; }
-    #goals > div[style*="grid"] { grid-template-columns: 1fr !important; gap: 36px !important; }
+    #interests  > div[style]          { grid-template-columns: 1fr 1fr !important; }
+    #personality > div[style*="grid"] { grid-template-columns: 1fr !important; gap: 44px !important; }
+    #goals       > div[style*="grid"] { grid-template-columns: 1fr !important; gap: 40px !important; }
   }
 
-  /* ── MOBILE (≤ 640px) — cinematic mobile-first redesign ── */
+  /* ══════════════════════════════════════════════════════════
+     MOBILE  ≤ 640px
+     Full cinematic mobile-first redesign.
+     Hierarchy: atmosphere → name → identity → CTA.
+     Everything else: clean, breathable, single-column.
+  ══════════════════════════════════════════════════════════ */
   @media (max-width: 640px) {
 
-    /* Hide desktop cursor — irrelevant on touch */
+    /* ── Desktop cursor gone on touch ── */
     .cursor, .cursor-ring { display: none !important; }
     body { cursor: auto; }
 
-    /* ── NAV ── */
-    nav {
-      padding: 14px 20px;
-    }
-    .nav-logo { font-size: 11px; letter-spacing: 3px; }
-    .nav-links { display: none; }
+    /* ── Noise overlay: lighter on mobile ── */
+    body::before { opacity: 0.18 !important; }
 
-    /* ── HERO ── */
+    /* ══ NAV ══ */
+    nav {
+      padding: 16px 22px;
+      background: linear-gradient(to bottom, rgba(8,6,8,0.98) 0%, transparent 100%);
+    }
+    .nav-logo  { font-size: 11px; letter-spacing: 4px; }
+    .nav-links { display: none; }   /* clean logo-only bar on mobile */
+
+    /* ══ HERO ══ */
     #hero {
       grid-template-columns: 1fr;
       min-height: 100svh;
+      align-items: flex-start;
     }
-    /* Tone down background — less muddy on small screens */
-    #heroCanvas { opacity: 0.5 !important; }
-    #hero-halftone { opacity: 0.45 !important; }
-    .orb1 { width: 280px !important; height: 280px !important; opacity: 0.5; }
-    .orb2 { width: 200px !important; height: 200px !important; opacity: 0.4; }
-    .orb3 { width: 160px !important; height: 160px !important; opacity: 0.35; }
 
+    /* Background tamed — keeps atmosphere, kills mud */
+    #heroCanvas    { opacity: 0.38 !important; }
+    #hero-halftone { opacity: 0.3  !important; }
+    #hero-scanline { opacity: 0.4  !important; }
+    .orb1 { display: none !important; }   /* orbs cause the muddy blur on small screens */
+    .orb2 { display: none !important; }
+    .orb3 { width: 220px !important; height: 220px !important; opacity: 0.25; top: auto !important; bottom: 10% !important; left: -60px !important; }
+
+    /* Add a soft dark base so text is always readable */
+    #hero::after {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(
+        to bottom,
+        rgba(8,6,8,0.55) 0%,
+        rgba(8,6,8,0.20) 40%,
+        rgba(8,6,8,0.60) 100%
+      );
+      pointer-events: none;
+    }
+
+    /* Hero content — clean, focused, cinematic */
     .hero-left {
-      padding: 92px 24px 72px;
+      position: relative; z-index: 2;
+      padding: 110px 26px 80px;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      min-height: 100svh;
     }
 
+    /* Identity tag — minimal, elegant */
     .hero-tag {
-      font-size: 9px;
-      letter-spacing: 3px;
-      margin-bottom: 18px;
+      font-size: 8px;
+      letter-spacing: 4px;
+      margin-bottom: 20px;
       gap: 10px;
+      color: var(--orange);
+      opacity: 0.85;
     }
-    .hero-tag::before { width: 20px; }
+    .hero-tag::before { width: 18px; }
 
+    /* Name — the hero of the hero */
     .hero-title {
-      font-size: clamp(52px, 15vw, 72px) !important;
-      line-height: 1.04;
+      font-size: clamp(56px, 16vw, 76px) !important;
+      line-height: 1.02 !important;
+      letter-spacing: -0.02em !important;
     }
 
+    /* One-liner identity — keep it short and atmospheric */
     .hero-subtitle {
       font-size: 13px;
-      letter-spacing: 1px;
-      line-height: 1.9;
-      margin-top: 14px;
+      letter-spacing: 1.5px;
+      line-height: 1.85;
+      margin-top: 18px;
       max-width: 100%;
-      color: rgba(232,224,208,0.5);
+      color: rgba(232,224,208,0.52);
     }
 
-    .hero-desc {
-      font-size: 14px;
-      line-height: 2;
-      margin-top: 16px;
-      max-width: 100%;
-      color: rgba(232,224,208,0.4);
-    }
+    /* Long desc paragraph — hidden on mobile, too dense */
+    .hero-desc { display: none !important; }
 
+    /* CTAs — stacked, full-width, generous touch targets */
     .hero-ctas {
-      margin-top: 28px;
+      margin-top: 36px;
       flex-direction: column;
       gap: 12px;
       align-items: stretch;
     }
     .btn-primary, .btn-outline {
-      padding: 18px 24px;
+      padding: 18px 28px;
       font-size: 10px;
-      letter-spacing: 2px;
+      letter-spacing: 2.5px;
       justify-content: center;
       width: 100%;
     }
 
+    /* Stats — simplified, no dividers */
     .hero-stats {
-      margin-top: 36px;
-      gap: 22px;
+      margin-top: 40px;
+      gap: 24px;
       flex-wrap: wrap;
     }
-    .stat-num { font-size: 22px; }
-    .stat-label { font-size: 9px; letter-spacing: 1.5px; }
-    .stat-divider { display: none; }
+    .stat-num      { font-size: 24px; }
+    .stat-label    { font-size: 9px; letter-spacing: 2px; }
+    .stat-divider  { display: none; }
 
-    /* ── SECTIONS BASE ── */
+    /* ══ SECTION RHYTHM ══ */
     #about, #work, #connect {
-      padding: 64px 22px !important;
+      padding: 80px 24px !important;
     }
     #interests, #personality, #goals {
-      padding: 64px 22px !important;
+      padding: 80px 24px !important;
     }
 
     .section-header {
-      margin-bottom: 36px;
-      gap: 12px;
+      margin-bottom: 44px;
+      gap: 14px;
     }
     .section-title {
-      font-size: 20px !important;
-      letter-spacing: 2px;
+      font-size: 22px !important;
+      letter-spacing: 2.5px;
     }
-    .section-num { font-size: 10px; }
+    .section-num   { font-size: 10px; opacity: 0.6; }
+    .section-line  { opacity: 0.4; }
 
-    /* ── ABOUT ── */
+    /* ══ ABOUT ══ */
     .about-grid {
       grid-template-columns: 1fr !important;
-      gap: 44px;
+      gap: 52px;
     }
     .about-text p {
       font-size: 16px !important;
-      line-height: 2.1;
-      margin-bottom: 22px;
+      line-height: 2.1 !important;
+      margin-bottom: 24px !important;
     }
-    .skills-grid { gap: 22px; }
-    .skill-name { font-size: 10px; letter-spacing: 1.5px; }
-    .skill-pct  { font-size: 10px; }
+    .skills-grid   { gap: 26px; }
+    .skill-header  { margin-bottom: 10px; }
+    .skill-name    { font-size: 10px; letter-spacing: 2px; }
+    .skill-pct     { font-size: 10px; }
+    .skill-bar     { height: 3px; }
 
-    /* ── WORK CARDS ── */
+    /* ══ WORK CARDS ══ */
     .work-grid {
       grid-template-columns: 1fr !important;
-      gap: 2px;
+      gap: 3px;
     }
-    .work-card { padding: 36px 24px; }
-    .work-icon { font-size: 28px; margin-bottom: 16px; }
-    .work-title { font-size: 13px; letter-spacing: 1.5px; }
-    .work-desc  { font-size: 14px !important; line-height: 2; }
-    .work-num   { font-size: 36px; }
-    .work-tag   { font-size: 8px; }
+    .work-card {
+      padding: 40px 28px;
+    }
+    .work-icon  { font-size: 30px; margin-bottom: 20px; }
+    .work-num   { font-size: 40px; opacity: 0.05; }
+    .work-title { font-size: 13px; letter-spacing: 2px; margin-bottom: 16px; }
+    .work-desc  { font-size: 15px !important; line-height: 2 !important; }
+    .work-tag   { font-size: 8px; margin-top: 24px; padding: 5px 14px; }
 
-    /* ── INTERESTS (inline-style grid override) ── */
+    /* ══ INTERESTS ══ */
     #interests > div[style] {
       grid-template-columns: 1fr !important;
-      gap: 2px !important;
-      margin-bottom: 40px !important;
+      gap: 3px !important;
+      margin-bottom: 0 !important;
     }
 
-    /* ── PERSONALITY (inline-style overrides) ── */
+    /* ══ PERSONALITY / MINDSET ══ */
+    /* Watermark — shrink so it doesn't bleed */
     #personality > div[style*="180px"] {
-      font-size: 70px !important;
+      font-size: 64px !important;
+      opacity: 0.025 !important;
     }
     #personality > div[style*="grid"] {
       grid-template-columns: 1fr !important;
-      gap: 36px !important;
+      gap: 44px !important;
     }
     #personality p[style*="22px"] {
-      font-size: 17px !important;
-      line-height: 1.95 !important;
-      margin-bottom: 20px !important;
+      font-size: 18px !important;
+      line-height: 2 !important;
+      margin-bottom: 22px !important;
     }
     #personality p[style*="17px"] {
       font-size: 15px !important;
       line-height: 2 !important;
-      margin-bottom: 18px !important;
+      margin-bottom: 20px !important;
     }
-    /* Trait cards */
+    /* Trait cards — roomier */
     #personality div[style*="display:flex;align-items:center"] {
-      padding: 14px 16px !important;
-      gap: 12px !important;
+      padding: 18px 20px !important;
+      gap: 14px !important;
     }
 
-    /* ── GOALS (inline-style overrides) ── */
+    /* ══ GOALS ══ */
     #goals > div[style*="grid"] {
       grid-template-columns: 1fr !important;
-      gap: 40px !important;
+      gap: 48px !important;
+    }
+    /* Goal items */
+    #goals div[style*="display:flex;align-items:flex-start"] {
+      padding: 18px 20px !important;
+      gap: 14px !important;
     }
     #goals div[style*="font-size:15px"] {
-      font-size: 14px !important;
-      line-height: 1.8 !important;
+      font-size: 15px !important;
+      line-height: 1.85 !important;
     }
-    #goals div[style*="font-size:11px"] {
-      font-size: 9px !important;
+    #goals p[style*="font-size:15px"] {
+      font-size: 15px !important;
+      line-height: 1.9 !important;
+    }
+    /* Vision box */
+    #goals div[style*="margin-top:32px"] {
+      margin-top: 28px !important;
+      padding: 22px 20px !important;
     }
 
-    /* ── CONNECT ── */
-    #connect::before { font-size: 72px !important; }
-    .connect-title { letter-spacing: 2px; margin-bottom: 12px; }
-    .connect-sub   { font-size: 13px; letter-spacing: 1px; margin-bottom: 36px; }
-    .social-grid   { flex-direction: column; gap: 10px; }
+    /* ══ CONNECT ══ */
+    #connect::before     { font-size: 60px !important; opacity: 0.025 !important; }
+    .connect-title       { letter-spacing: 2px; margin-bottom: 14px; }
+    .connect-sub         { font-size: 13px; letter-spacing: 1px; margin-bottom: 44px; }
+    .social-grid         { flex-direction: column; gap: 10px; }
     .social-link {
-      padding: 18px 22px;
+      padding: 20px 24px;
       font-size: 10px;
       letter-spacing: 2px;
       clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
       justify-content: flex-start;
+      gap: 14px;
     }
-    .social-icon { font-size: 16px; }
+    .social-icon { font-size: 18px; }
 
-    /* ── FOOTER ── */
+    /* ══ FOOTER ══ */
     footer {
-      padding: 20px 22px !important;
+      padding: 24px 24px !important;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
       text-align: center;
     }
-    .footer-text   { font-size: 9px; }
-    .footer-status { font-size: 9px; justify-content: center; }
+    .footer-text   { font-size: 9px; letter-spacing: 2px; }
+    .footer-status { font-size: 9px; letter-spacing: 2px; justify-content: center; }
   }
 
-  /* ── SMALL PHONES (≤ 390px) ── */
+  /* ══════════════════════════════════════════════════════════
+     SMALL PHONES  ≤ 390px  (iPhone SE, small Androids)
+  ══════════════════════════════════════════════════════════ */
   @media (max-width: 390px) {
-    .hero-title { font-size: clamp(44px, 13vw, 60px) !important; }
-    .hero-subtitle { font-size: 12px; }
-    .hero-desc { font-size: 13px; }
-    .hero-stats { gap: 16px; }
-    .stat-num { font-size: 20px; }
+    .hero-left     { padding: 100px 22px 72px; min-height: 100svh; }
+    .hero-title    { font-size: clamp(48px, 14vw, 64px) !important; }
+    .hero-subtitle { font-size: 12px; letter-spacing: 1px; }
+    .hero-stats    { margin-top: 32px; gap: 20px; }
+    .stat-num      { font-size: 20px; }
+
     #about, #work, #connect,
-    #interests, #personality, #goals { padding: 52px 18px !important; }
-    .work-card { padding: 28px 18px; }
-    .social-link { padding: 16px 18px; }
+    #interests, #personality, #goals { padding: 64px 20px !important; }
+
+    .section-title { font-size: 19px !important; }
+
+    .work-card  { padding: 34px 22px; }
+    .work-desc  { font-size: 14px !important; }
+
+    .social-link { padding: 18px 20px; }
+    .btn-primary, .btn-outline { padding: 16px 22px; }
   }
 </style>
 </head>
