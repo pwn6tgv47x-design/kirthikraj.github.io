@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>raj_codes // Portfolio</title>
+<title>Kirthik Raj — Raj Codes</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -16,6 +16,10 @@
     --dark2: #0f0a10;
     --text: #e8e0d0;
     --muted: #7a6f65;
+    --border-radius-md: 3px;
+    --live-green: #4cff72;
+    --panel-bg: rgba(232,105,60,0.03);
+    --panel-border: rgba(232,105,60,0.14);
   }
 
   html { scroll-behavior: smooth; }
@@ -463,6 +467,200 @@
   ::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 2px; }
 
   /* ════════════════════════════════════════
+     LIVE STATUS PILL (hero)
+     ════════════════════════════════════════ */
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Orbitron', monospace; font-size: 10px;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 18px;
+    animation: fadeUp 1s 0.05s ease both;
+  }
+  .status-pill .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--muted); flex: none;
+  }
+  .status-pill.is-live { color: var(--live-green); }
+  .status-pill.is-live .dot { background: var(--live-green); animation: pulse 2s ease-in-out infinite; }
+
+  /* ════════════════════════════════════════
+     SHARED PANEL PRIMITIVES
+     ════════════════════════════════════════ */
+  .panel {
+    border: 1px solid var(--panel-border);
+    background: var(--panel-bg);
+    border-radius: var(--border-radius-md);
+  }
+  .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 32px; }
+  .tech-tag {
+    padding: 5px 12px; border: 1px solid rgba(232,105,60,0.3);
+    font-family: 'Orbitron', monospace; font-size: 10px; letter-spacing: 1.5px;
+    color: var(--orange); text-transform: uppercase;
+  }
+
+  /* ════════════════════════════════════════
+     CURRENT BUILD
+     ════════════════════════════════════════ */
+  #current-build {
+    padding: 100px 80px;
+    background: var(--dark);
+    border-top: 1px solid rgba(232,105,60,0.08);
+    border-bottom: 1px solid rgba(232,105,60,0.08);
+  }
+  .build-status-row {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 8px;
+  }
+  .build-status-row .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
+  .build-eyebrow {
+    font-family: 'Orbitron', monospace; font-size: 11px; letter-spacing: 3px;
+    color: var(--muted); text-transform: uppercase;
+  }
+  .build-name {
+    font-family: 'Sora', sans-serif; font-weight: 700;
+    font-size: clamp(26px, 3.2vw, 40px); margin-bottom: 4px;
+  }
+  .progress-track {
+    width: 100%; height: 6px; background: rgba(255,255,255,0.06);
+    position: relative; overflow: hidden; margin: 10px 0 6px;
+  }
+  .progress-fill {
+    height: 100%; background: linear-gradient(to right, var(--orange), var(--gold));
+    width: 0%; transition: width 1.2s cubic-bezier(.4,0,.2,1);
+  }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-family: 'Orbitron', monospace; font-size: 11px;
+    letter-spacing: 1.5px; color: var(--muted); margin-bottom: 40px;
+  }
+  .progress-label b { color: var(--orange); }
+  .milestone-list { display: flex; flex-direction: column; gap: 2px; }
+  .milestone {
+    display: flex; align-items: center; gap: 16px;
+    padding: 14px 20px; border-left: 2px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.015);
+    font-family: 'Orbitron', monospace; font-size: 13px; letter-spacing: 1px;
+    color: var(--muted); text-transform: uppercase;
+  }
+  .milestone .mk { width: 16px; text-align: center; flex: none; font-size: 13px; }
+  .milestone.done { border-left-color: var(--live-green); color: rgba(232,224,208,0.55); }
+  .milestone.done .mk { color: var(--live-green); }
+  .milestone.current {
+    border-left-color: var(--orange); background: rgba(232,105,60,0.06);
+    color: var(--text); font-weight: 700;
+  }
+  .milestone.current .mk { color: var(--orange); }
+  .build-ctas { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 36px; }
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 26px; background: transparent;
+    color: var(--muted); font-family: 'Orbitron', monospace;
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.12); cursor: none;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    transition: all 0.3s;
+  }
+  .btn-ghost:hover { border-color: var(--orange); color: var(--orange); }
+  .btn-ghost[aria-disabled="true"] { opacity: 0.4; pointer-events: none; }
+
+  /* ════════════════════════════════════════
+     LIVE COMMAND CENTER
+     ════════════════════════════════════════ */
+  #live { padding: 100px 80px; background: var(--dark2); }
+  .cc-panel {
+    max-width: 640px; padding: 36px 40px;
+  }
+  .cc-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+    gap: 20px;
+  }
+  .cc-row:last-of-type { border-bottom: none; }
+  .cc-key {
+    font-family: 'Orbitron', monospace; font-size: 10px; letter-spacing: 2px;
+    color: var(--muted); text-transform: uppercase; flex: none;
+  }
+  .cc-val {
+    font-size: 14px; color: var(--text); text-align: right;
+    font-weight: 500;
+  }
+  .cc-val.is-live { color: var(--live-green); font-family: 'Orbitron', monospace; letter-spacing: 1px; }
+  .cc-val.is-offline { color: var(--muted); font-family: 'Orbitron', monospace; letter-spacing: 1px; }
+  .cc-ctas { display: flex; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
+
+  /* ════════════════════════════════════════
+     FOCUS AREAS (merged work + interests)
+     ════════════════════════════════════════ */
+  #focus { padding: 120px 80px; background: var(--dark2); }
+  .focus-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+
+  /* ════════════════════════════════════════
+     CHAT LAB
+     ════════════════════════════════════════ */
+  #chat-lab { padding: 120px 80px; background: var(--dark); }
+  .lab-note {
+    font-size: 15px; color: rgba(232,224,208,0.5); max-width: 560px;
+    line-height: 1.8; margin-bottom: 12px;
+  }
+  .lab-demo-tag {
+    display: inline-block; font-family: 'Orbitron', monospace; font-size: 9px;
+    letter-spacing: 2px; color: var(--gold); border: 1px solid rgba(200,134,42,0.4);
+    padding: 3px 10px; text-transform: uppercase; margin-bottom: 40px;
+  }
+  .vote-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; max-width: 720px; }
+  .vote-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    padding: 26px 12px; background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(232,105,60,0.15); cursor: none;
+    font-family: 'Orbitron', monospace; color: var(--text);
+    transition: all 0.25s;
+  }
+  .vote-btn:hover { border-color: var(--orange); background: rgba(232,105,60,0.06); }
+  .vote-btn .emoji { font-size: 26px; }
+  .vote-btn .label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; }
+  .vote-btn .count { font-size: 11px; color: var(--orange); }
+  .vote-reset {
+    margin-top: 20px; background: none; border: none; cursor: none;
+    font-family: 'Orbitron', monospace; font-size: 10px; letter-spacing: 1.5px;
+    color: var(--muted); text-decoration: underline; text-transform: uppercase;
+  }
+
+  /* ════════════════════════════════════════
+     STREAM ARCHIVE / SHORTS — empty-state cards
+     ════════════════════════════════════════ */
+  #streams { padding: 120px 80px; background: var(--dark2); }
+  #shorts { padding: 120px 80px; background: var(--dark); }
+  .archive-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .archive-card {
+    padding: 28px 24px; background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(232,105,60,0.1);
+  }
+  .archive-card .plat {
+    font-family: 'Orbitron', monospace; font-size: 9px; letter-spacing: 2px;
+    color: var(--orange); text-transform: uppercase; margin-bottom: 10px; display: block;
+  }
+  .archive-card .ttl { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+  .archive-card .meta { font-size: 12px; color: var(--muted); }
+  .empty-state {
+    padding: 56px 32px; text-align: center;
+    border: 1px dashed rgba(232,105,60,0.2);
+  }
+  .empty-state p {
+    font-size: 15px; color: var(--muted); margin-bottom: 20px;
+  }
+  .shorts-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .short-card {
+    aspect-ratio: 9/13; background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(232,105,60,0.12);
+    display: flex; align-items: flex-end; padding: 14px;
+    text-decoration: none;
+  }
+  .short-card .ttl {
+    font-family: 'Orbitron', monospace; font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; color: var(--text); line-height: 1.4;
+  }
+
+  /* ════════════════════════════════════════
      MOBILE — full redesign (≤ 768px)
      ════════════════════════════════════════ */
   @media (max-width: 768px) {
@@ -598,16 +796,43 @@
 
     /* ── SECTIONS — base spacing ── */
     #about,
-    #work,
     #connect {
       padding: 72px 28px;
     }
 
-    #interests,
+    #current-build,
+    #live,
+    #focus,
     #personality,
-    #goals {
+    #goals,
+    #chat-lab,
+    #streams,
+    #shorts {
       padding: 72px 28px !important;
     }
+
+    /* ── CURRENT BUILD ── */
+    .build-name { font-size: clamp(22px, 8vw, 30px); }
+    .milestone { font-size: 11px; padding: 12px 16px; letter-spacing: 0.5px; }
+    .build-ctas { flex-direction: column; }
+    .build-ctas .btn-ghost, .build-ctas .btn-primary { width: 100%; justify-content: center; }
+
+    /* ── LIVE COMMAND CENTER ── */
+    .cc-panel { padding: 24px 20px; max-width: 100%; }
+    .cc-row { flex-direction: column; align-items: flex-start; gap: 4px; }
+    .cc-val { text-align: left; }
+    .cc-ctas { flex-direction: column; }
+    .cc-ctas .btn-primary, .cc-ctas .btn-outline { width: 100%; justify-content: center; }
+
+    /* ── FOCUS GRID ── */
+    .focus-grid { grid-template-columns: 1fr; gap: 16px; }
+
+    /* ── CHAT LAB ── */
+    .vote-grid { grid-template-columns: 1fr 1fr; }
+
+    /* ── STREAMS / SHORTS ── */
+    .archive-grid { grid-template-columns: 1fr; gap: 14px; }
+    .shorts-grid { grid-template-columns: 1fr 1fr; }
 
     /* ── SECTION HEADER ── */
     .section-header { margin-bottom: 40px; }
@@ -643,12 +868,6 @@
     .work-title { font-size: 13px; letter-spacing: 1.8px; }
     .work-desc { font-size: 13px; line-height: 1.75; overflow-wrap: anywhere; }
     .work-tag { font-size: 8px; letter-spacing: 1.6px; }
-
-    /* ── INTERESTS — force single column ── */
-    #interests > div[style*="grid-template-columns"] {
-      grid-template-columns: 1fr !important;
-      gap: 12px !important;
-    }
 
     /* ── PERSONALITY / MINDSET ── */
     #personality > div[style*="grid-template-columns"] {
@@ -712,11 +931,13 @@
     .hero-left { padding: 0 18px; }
     .hero-ctas { margin-top: 24px; }
     .btn-primary, .btn-outline { width: 100%; }
-    #about, #work, #connect,
-    #interests, #personality, #goals {
+    #about, #connect,
+    #current-build, #live, #focus, #personality, #goals, #chat-lab, #streams, #shorts {
       padding: 56px 18px !important;
     }
     .work-card { padding: 22px 16px; }
+    .vote-grid { grid-template-columns: 1fr 1fr; }
+    .shorts-grid { grid-template-columns: 1fr 1fr; }
     .section-title { font-size: 22px; }
   }
 
@@ -725,10 +946,10 @@
     #hero { grid-template-columns: 1fr; }
     .hero-left { padding: 140px 60px 100px; max-width: 680px; }
     .hero-desc { max-width: 520px; }
-    #about, #work, #connect { padding: 100px 60px; }
-    #interests, #personality, #goals { padding: 100px 60px !important; }
-    .work-grid { grid-template-columns: 1fr 1fr; }
-    #interests > div[style*="grid-template-columns"] { grid-template-columns: 1fr 1fr !important; }
+    #about, #connect { padding: 100px 60px; }
+    #current-build, #live, #focus, #personality, #goals, #chat-lab, #streams, #shorts { padding: 100px 60px !important; }
+    .focus-grid { grid-template-columns: 1fr 1fr; }
+    .archive-grid { grid-template-columns: 1fr 1fr; }
     #personality > div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; gap: 48px !important; }
   }
 </style>
@@ -746,10 +967,12 @@
 <nav>
   <div class="nav-logo">Kirthik // Raj</div>
   <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#work">Work</a></li>
-    <li><a href="#interests">Interests</a></li>
-    <li><a href="#goals">Goals</a></li>
+    <li><a href="#current-build">Build</a></li>
+    <li><a href="#live">Live</a></li>
+    <li><a href="#focus">Focus</a></li>
+    <li><a href="#goals">Log</a></li>
+    <li><a href="#chat-lab">Chat Lab</a></li>
+    <li><a href="#streams">Streams</a></li>
     <li><a href="#connect">Connect</a></li>
   </ul>
 </nav>
@@ -764,7 +987,11 @@
   <div class="orb orb3"></div>
 
   <div class="hero-left">
-    <div class="hero-tag">AI &amp; Data Science Student · C/C++ · Graphics Learner</div>
+    <div class="status-pill" id="heroStatusPill">
+      <span class="dot"></span>
+      <span id="heroStatusText">Checking status…</span>
+    </div>
+    <div class="hero-tag">C/C++ · OpenGL · GLSL · Vulkan</div>
 
     <h1 class="hero-title">
       Kirthik<br>
@@ -772,22 +999,22 @@
     </h1>
 
     <p class="hero-subtitle">
-      C/C++ Programmer · Graphics Enthusiast · Game Engine Learner<br>
+      I build graphics systems from scratch.<br>
       C++ · OpenGL · Computer Graphics · Vulkan · LeetCode
     </p>
 
     <p class="hero-desc">
-      Deeply curious about how systems are built from scratch —
-      from memory and algorithms to rendering pipelines, graphics APIs,
-      and the game technology behind interactive experiences.
+      B.Tech AI &amp; Data Science student — but the real work happening here is
+      memory, pointers, rendering pipelines, and everything between a vertex
+      and a pixel.
     </p>
 
     <div class="hero-ctas">
-      <a href="https://www.twitch.tv/raj_codes" class="btn-primary" target="_blank">
-        ▶ Watch Live
+      <a href="https://www.twitch.tv/raj_codes" class="btn-primary" id="heroWatchBtn" target="_blank">
+        ○ Offline — Next Stream
       </a>
-      <a href="#connect" class="btn-outline">
-        Connect ↓
+      <a href="#current-build" class="btn-outline">
+        Current Build ↓
       </a>
     </div>
 
@@ -798,8 +1025,8 @@
       </div>
       <div class="stat-divider"></div>
       <div class="stat">
-        <span class="stat-num">3+</span>
-        <span class="stat-label">Languages</span>
+        <span class="stat-num" id="heroProgressStat">—</span>
+        <span class="stat-label">Build Progress</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat">
@@ -829,10 +1056,87 @@
 }
 </style>
 
+<!-- CURRENT BUILD -->
+<section id="current-build">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Current Build</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="build-status-row">
+    <span class="dot"></span>
+    <span class="build-eyebrow">In Development</span>
+  </div>
+  <h3 class="build-name">🚀 OpenGL Space Shooter</h3>
+
+  <div class="tech-tags">
+    <span class="tech-tag">C++</span>
+    <span class="tech-tag">OpenGL</span>
+    <span class="tech-tag">GLSL</span>
+    <span class="tech-tag">GLFW</span>
+    <span class="tech-tag">CMake</span>
+  </div>
+
+  <div class="progress-track"><div class="progress-fill" id="buildProgressFill"></div></div>
+  <div class="progress-label">
+    <span id="buildProgressStageLabel">Loading…</span>
+    <span><b id="buildProgressPct">—</b></span>
+  </div>
+
+  <ul class="milestone-list" id="milestoneList"></ul>
+
+  <div class="build-ctas">
+    <a href="https://www.twitch.tv/raj_codes" class="btn-primary" id="buildWatchBtn" target="_blank">Watch Build Live</a>
+    <a href="#" class="btn-ghost" id="buildSourceBtn" aria-disabled="true">View Source</a>
+    <span class="btn-ghost" aria-disabled="true">Play Build — Coming Soon</span>
+  </div>
+</section>
+
+<!-- LIVE COMMAND CENTER -->
+<section id="live" style="background:var(--dark2);">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Live Command Center</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="cc-panel panel">
+    <div class="cc-row">
+      <span class="cc-key">Stream Status</span>
+      <span class="cc-val" id="ccStatus">Checking…</span>
+    </div>
+    <div class="cc-row">
+      <span class="cc-key">Current Project</span>
+      <span class="cc-val">OpenGL Space Shooter</span>
+    </div>
+    <div class="cc-row">
+      <span class="cc-key">Current Objective</span>
+      <span class="cc-val" id="ccObjective">—</span>
+    </div>
+    <div class="cc-row">
+      <span class="cc-key">Project Progress</span>
+      <span class="cc-val" id="ccProgress">—</span>
+    </div>
+    <div class="cc-row">
+      <span class="cc-key">Next Mission</span>
+      <span class="cc-val" id="ccNextMission">—</span>
+    </div>
+    <div class="cc-row">
+      <span class="cc-key">Last Checked</span>
+      <span class="cc-val" id="ccLastChecked">—</span>
+    </div>
+    <div class="cc-ctas">
+      <a href="https://www.twitch.tv/raj_codes" class="btn-primary" target="_blank">Twitch</a>
+      <a href="https://www.youtube.com/@rajcodesz" class="btn-outline" target="_blank">YouTube</a>
+    </div>
+  </div>
+</section>
+
 <!-- ABOUT -->
 <section id="about">
   <div class="section-header">
-    <span class="section-num">01</span>
+    <span class="section-num">03</span>
     <h2 class="section-title">About</h2>
     <div class="section-line"></div>
   </div>
@@ -840,19 +1144,11 @@
   <div class="about-grid">
     <div class="about-text">
       <p>
-        Hey, I'm <strong>Kirthik</strong> — an AI &amp; Data Science student deeply interested
-        in C, C++, low-level programming, and computer graphics.
-      </p>
-      <p>
-        I enjoy understanding <strong>how things are built from scratch</strong> — from
-        algorithms and memory to rendering pipelines, graphics APIs, game engines,
-        and the systems that make interactive software possible.
-      </p>
-      <p>
-        I'm currently focused on learning <strong>OpenGL</strong>, improving my C/C++ skills,
-        and practicing LeetCode to strengthen problem solving. Long term, I want to
-        explore Vulkan, rendering systems, and build small game engines and 2D/3D
-        experiences from the ground up.
+        Hey, I'm <strong>Kirthik</strong> — a B.Tech AI &amp; Data Science student who builds
+        <strong>from scratch</strong>: memory and algorithms, rendering pipelines, graphics
+        APIs, and the systems behind interactive software. Right now that means
+        <strong>OpenGL</strong>, C/C++ fundamentals, and LeetCode. Long term: Vulkan, rendering
+        systems, and small game engines built from the ground up.
       </p>
     </div>
 
@@ -896,132 +1192,58 @@
   </div>
 </section>
 
-<!-- WHAT I DO -->
-<section id="work">
+<!-- FOCUS AREAS -->
+<section id="focus">
   <div class="section-header">
-    <span class="section-num">02</span>
-    <h2 class="section-title">What I Do</h2>
+    <span class="section-num">04</span>
+    <h2 class="section-title">Focus Areas</h2>
     <div class="section-line"></div>
   </div>
 
-  <div class="work-grid">
-    <div class="work-card">
-      <span class="work-num">01</span>
-      <span class="work-icon">⚡</span>
-      <h3 class="work-title">Graphics Programming</h3>
-      <p class="work-desc">
-        Learning OpenGL, the graphics pipeline, shaders, textures, transformations,
-        lighting, and how GPUs and graphics APIs turn data into pixels.
-      </p>
-      <span class="work-tag">OpenGL · Shaders · Rendering</span>
-    </div>
-
-    <div class="work-card">
-      <span class="work-num">02</span>
-      <span class="work-icon">📺</span>
-      <h3 class="work-title">C/C++ &amp; Problem Solving</h3>
-      <p class="work-desc">
-        Building stronger C and C++ fundamentals, studying data structures and
-        algorithms, and solving LeetCode problems to improve logical thinking.
-      </p>
-      <span class="work-tag">C · C++ · DSA · LeetCode</span>
-    </div>
-
-    <div class="work-card">
-      <span class="work-num">03</span>
-      <span class="work-icon">🔬</span>
-      <h3 class="work-title">Game &amp; Engine Development</h3>
-      <p class="work-desc">
-        Exploring how game engines work internally, building small 2D/3D projects,
-        and working toward my own simple engine or rendering framework.
-      </p>
-      <span class="work-tag">Games · Engines · Architecture</span>
-    </div>
-  </div>
-</section>
-
-<!-- INTERESTS -->
-<section id="interests" style="padding:120px 80px;background:var(--dark2);position:relative;">
-  <div class="section-header">
-    <span class="section-num">03</span>
-    <h2 class="section-title">Interests</h2>
-    <div class="section-line"></div>
-  </div>
-
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-bottom:60px;">
-
-    <!-- C/C++ -->
+  <div class="focus-grid">
     <div class="work-card">
       <span class="work-num">01</span>
       <span class="work-icon">⌘</span>
-      <h3 class="work-title">C &amp; C++</h3>
+      <h3 class="work-title">C / C++ &amp; Systems</h3>
       <p class="work-desc">
-        I enjoy programming in C and C++ because they help me understand memory,
-        pointers, data structures, performance, and software closer to the machine.
+        Memory, pointers, performance, and data structures — plus LeetCode
+        to keep problem-solving sharp.
       </p>
-      <span class="work-tag">Memory · Pointers · Performance</span>
+      <span class="work-tag">Memory · DSA · LeetCode</span>
     </div>
 
-    <!-- Computer Graphics -->
     <div class="work-card">
       <span class="work-num">02</span>
       <span class="work-icon">▧</span>
-      <h3 class="work-title">Computer Graphics</h3>
+      <h3 class="work-title">Graphics Programming</h3>
       <p class="work-desc">
-        I am deeply interested in how computers turn mathematical data into pixels.
-        Right now I am learning OpenGL, shaders, textures, lighting, and real-time rendering.
+        OpenGL, the graphics pipeline, shaders, textures, and how GPUs turn
+        data into pixels.
       </p>
       <span class="work-tag">OpenGL · GLSL · Rendering</span>
     </div>
 
-    <!-- Vulkan -->
     <div class="work-card">
       <span class="work-num">03</span>
       <span class="work-icon">◆</span>
-      <h3 class="work-title">Vulkan &amp; Low-Level Graphics</h3>
+      <h3 class="work-title">Vulkan &amp; Low-Level GPU</h3>
       <p class="work-desc">
-        Vulkan is a major long-term interest. After building a stronger OpenGL
-        foundation, I want to understand modern GPU programming at a deeper level.
+        The long-term target once the OpenGL foundation is solid — modern
+        GPU programming at a deeper level.
       </p>
       <span class="work-tag">Pipelines · Memory · GPU</span>
     </div>
 
-    <!-- Game Engines -->
     <div class="work-card">
       <span class="work-num">04</span>
       <span class="work-icon">⚙️</span>
-      <h3 class="work-title">Game Engines</h3>
+      <h3 class="work-title">Game &amp; Engine Development</h3>
       <p class="work-desc">
-        I want to understand how engines work internally and eventually create a
-        small game engine or rendering framework for 2D/3D games.
+        How engines work internally, and building toward a small engine or
+        rendering framework of my own.
       </p>
-      <span class="work-tag">Architecture · Systems · Games</span>
+      <span class="work-tag">Games · Engines · Architecture</span>
     </div>
-
-    <!-- Problem Solving -->
-    <div class="work-card">
-      <span class="work-num">05</span>
-      <span class="work-icon">◇</span>
-      <h3 class="work-title">Algorithms &amp; Problem Solving</h3>
-      <p class="work-desc">
-        I practice LeetCode and algorithms to improve logical thinking,
-        problem-solving ability, and my understanding of data structures.
-      </p>
-      <span class="work-tag">DSA · LeetCode · Logic</span>
-    </div>
-
-    <!-- Web -->
-    <div class="work-card">
-      <span class="work-num">06</span>
-      <span class="work-icon">✦</span>
-      <h3 class="work-title">Web &amp; Digital Creation</h3>
-      <p class="work-desc">
-        I also enjoy creating websites, experimenting with UI, hosting projects,
-        and building polished digital experiences as a secondary interest.
-      </p>
-      <span class="work-tag">Web · UI · Websites</span>
-    </div>
-
   </div>
 </section>
 
@@ -1030,23 +1252,16 @@
   <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Orbitron',monospace;font-size:180px;font-weight:900;color:rgba(232,105,60,0.03);pointer-events:none;white-space:nowrap;">MINDSET</div>
 
   <div class="section-header">
-    <span class="section-num">04</span>
+    <span class="section-num">05</span>
     <h2 class="section-title">Mindset</h2>
     <div class="section-line"></div>
   </div>
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;position:relative;z-index:1;">
     <div>
-      <p style="font-size:22px;line-height:1.8;color:rgba(232,224,208,0.7);font-weight:300;margin-bottom:24px;">
-        I'm currently grinding every day to become genuinely good at OpenGL and computer graphics.
-      </p>
-      <p style="font-size:17px;line-height:2;color:rgba(232,224,208,0.5);font-weight:300;margin-bottom:20px;">
-        I don't want to rush through technologies just to collect skills. I want to
-        deeply understand the fundamentals behind the things I genuinely enjoy.
-      </p>
-      <p style="font-size:17px;line-height:2;color:rgba(232,224,208,0.5);font-weight:300;">
-        My path is C/C++, algorithms and LeetCode, OpenGL, computer graphics,
-        graphics projects, small games or engines, Vulkan, and deeper rendering systems.
+      <p style="font-size:22px;line-height:1.8;color:rgba(232,224,208,0.7);font-weight:300;">
+        Fundamentals over shortcuts. I'd rather deeply understand OpenGL than
+        collect frameworks — everything from C/C++ to Vulkan gets built the same way.
       </p>
     </div>
 
@@ -1084,42 +1299,42 @@
   </div>
 </section>
 
-<!-- GOALS -->
+<!-- DEVELOPMENT LOG -->
 <section id="goals" style="padding:120px 80px;background:var(--dark2);position:relative;">
   <div class="section-header">
-    <span class="section-num">05</span>
-    <h2 class="section-title">Goals</h2>
+    <span class="section-num">06</span>
+    <h2 class="section-title">Development Log</h2>
     <div class="section-line"></div>
   </div>
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;">
 
-    <!-- Current -->
+    <!-- The arc so far / now -->
     <div>
       <div style="font-family:'Orbitron',monospace;font-size:11px;letter-spacing:4px;color:var(--orange);margin-bottom:24px;display:flex;align-items:center;gap:12px;">
         <span style="width:20px;height:1px;background:var(--orange);display:inline-block;"></span>
-        Current Goals
+        The Arc So Far
       </div>
       <div style="display:flex;flex-direction:column;gap:14px;">
-        <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 20px;border-left:2px solid rgba(232,105,60,0.4);background:rgba(232,105,60,0.03);">
-          <span style="color:var(--orange);font-family:'Orbitron',monospace;font-size:11px;margin-top:2px;">01</span>
-          <span style="font-size:15px;color:rgba(232,224,208,0.7);line-height:1.7;">Become strong in C and C++ fundamentals</span>
+        <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 20px;border-left:2px solid var(--live-green);background:rgba(76,255,114,0.04);">
+          <span style="color:var(--live-green);font-family:'Orbitron',monospace;font-size:11px;margin-top:2px;">✓</span>
+          <span style="font-size:15px;color:rgba(232,224,208,0.7);line-height:1.7;">STAGE 01 — C &amp; C++ fundamentals, ongoing alongside everything else</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 20px;border-left:2px solid var(--live-green);background:rgba(76,255,114,0.04);">
+          <span style="color:var(--live-green);font-family:'Orbitron',monospace;font-size:11px;margin-top:2px;">✓</span>
+          <span style="font-size:15px;color:rgba(232,224,208,0.7);line-height:1.7;">STAGE 02 — OpenGL window + render loop working</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 20px;border-left:2px solid rgba(232,105,60,0.4);background:rgba(232,105,60,0.03);">
-          <span style="color:var(--orange);font-family:'Orbitron',monospace;font-size:11px;margin-top:2px;">02</span>
-          <span style="font-size:15px;color:rgba(232,224,208,0.7);line-height:1.7;">Master OpenGL and computer graphics fundamentals</span>
+          <span style="color:var(--orange);font-family:'Orbitron',monospace;font-size:11px;margin-top:2px;">◉</span>
+          <span style="font-size:15px;color:rgba(232,224,208,0.7);line-height:1.7;">STAGE 03 — Player rendering &amp; input <em>(current)</em></span>
         </div>
-        <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 20px;border-left:2px solid rgba(232,105,60,0.4);background:rgba(232,105,60,0.03);">
-          <span style="color:var(--orange);font-family:'Orbitron',monospace;font-size:11px;margin-top:2px;">03</span>
-          <span style="font-size:15px;color:rgba(232,224,208,0.7);line-height:1.7;">Improve problem solving with LeetCode and algorithms</span>
+        <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 20px;border-left:2px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.015);">
+          <span style="color:var(--muted);font-family:'Orbitron',monospace;font-size:11px;margin-top:2px;">○</span>
+          <span style="font-size:15px;color:rgba(232,224,208,0.5);line-height:1.7;">STAGE 04 — Shooting, enemies, collision</span>
         </div>
-        <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 20px;border-left:2px solid rgba(232,105,60,0.4);background:rgba(232,105,60,0.03);">
-          <span style="color:var(--orange);font-family:'Orbitron',monospace;font-size:11px;margin-top:2px;">04</span>
-          <span style="font-size:15px;color:rgba(232,224,208,0.7);line-height:1.7;">Build a small 2D/3D graphics project, renderer, or game</span>
-        </div>
-        <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 20px;border-left:2px solid rgba(232,105,60,0.4);background:rgba(232,105,60,0.03);">
-          <span style="color:var(--orange);font-family:'Orbitron',monospace;font-size:11px;margin-top:2px;">05</span>
-          <span style="font-size:15px;color:rgba(232,224,208,0.7);line-height:1.7;">Keep strengthening low-level programming concepts</span>
+        <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 20px;border-left:2px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.015);">
+          <span style="color:var(--muted);font-family:'Orbitron',monospace;font-size:11px;margin-top:2px;">○</span>
+          <span style="font-size:15px;color:rgba(232,224,208,0.5);line-height:1.7;">STAGE 05 — Particles &amp; polish</span>
         </div>
       </div>
     </div>
@@ -1133,19 +1348,15 @@
       <div style="display:flex;flex-direction:column;gap:14px;">
         <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 20px;border-left:2px solid rgba(200,134,42,0.5);background:rgba(200,134,42,0.04);">
           <span style="color:var(--gold);font-family:'Orbitron',monospace;font-size:11px;margin-top:2px;">✦</span>
-          <span style="font-size:15px;color:rgba(232,224,208,0.7);line-height:1.7;">Learn Vulkan deeply after building a strong OpenGL foundation</span>
+          <span style="font-size:15px;color:rgba(232,224,208,0.7);line-height:1.7;">STAGE 06 — Learn Vulkan deeply after this OpenGL foundation</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 20px;border-left:2px solid rgba(200,134,42,0.5);background:rgba(200,134,42,0.04);">
           <span style="color:var(--gold);font-family:'Orbitron',monospace;font-size:11px;margin-top:2px;">✦</span>
-          <span style="font-size:15px;color:rgba(232,224,208,0.7);line-height:1.7;">Build my own small game engine or rendering framework</span>
+          <span style="font-size:15px;color:rgba(232,224,208,0.7);line-height:1.7;">STAGE 07 — Build my own small game engine or rendering framework</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 20px;border-left:2px solid rgba(200,134,42,0.5);background:rgba(200,134,42,0.04);">
           <span style="color:var(--gold);font-family:'Orbitron',monospace;font-size:11px;margin-top:2px;">✦</span>
           <span style="font-size:15px;color:rgba(232,224,208,0.7);line-height:1.7;">Create 2D/3D games and interactive experiences</span>
-        </div>
-        <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 20px;border-left:2px solid rgba(200,134,42,0.5);background:rgba(200,134,42,0.04);">
-          <span style="color:var(--gold);font-family:'Orbitron',monospace;font-size:11px;margin-top:2px;">✦</span>
-          <span style="font-size:15px;color:rgba(232,224,208,0.7);line-height:1.7;">Become a strong graphics programmer</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:14px;padding:16px 20px;border-left:2px solid rgba(200,134,42,0.5);background:rgba(200,134,42,0.04);">
           <span style="color:var(--gold);font-family:'Orbitron',monospace;font-size:11px;margin-top:2px;">✦</span>
@@ -1154,13 +1365,53 @@
       </div>
       <div style="margin-top:32px;padding:24px;border:1px solid rgba(232,105,60,0.15);background:rgba(232,105,60,0.04);border-radius:var(--border-radius-md);">
         <p style="font-family:'Orbitron',monospace;font-size:12px;letter-spacing:2px;color:var(--orange);margin-bottom:8px;">// LONG-TERM VISION</p>
-        <p style="font-size:15px;line-height:1.9;color:rgba(232,224,208,0.6);">I don't want to collect technologies just because they are popular. I want to understand how things work, build from the ground up, and eventually create <strong style="color:var(--orange);">graphics technology, engines, and interactive experiences</strong> that people genuinely remember.</p>
+        <p style="font-size:15px;line-height:1.9;color:rgba(232,224,208,0.6);">Not collecting technologies because they're popular — building from the ground up toward <strong style="color:var(--orange);">graphics technology, engines, and interactive experiences</strong> that people genuinely remember.</p>
       </div>
     </div>
 
   </div>
 </section>
 
+<!-- CHAT LAB -->
+<section id="chat-lab">
+  <div class="section-header">
+    <span class="section-num">07</span>
+    <h2 class="section-title">Chat Lab</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <p class="lab-note">Chat decides what gets built next. During streams, votes here will
+    connect to Twitch and YouTube chat commands — for now, try it yourself:</p>
+  <span class="lab-demo-tag">Demo — Local Preview Only</span>
+
+  <div class="vote-grid" id="voteGrid">
+    <button class="vote-btn" data-weapon="Laser"><span class="emoji">🔫</span><span class="label">Laser</span><span class="count">0</span></button>
+    <button class="vote-btn" data-weapon="Shotgun"><span class="emoji">💥</span><span class="label">Shotgun</span><span class="count">0</span></button>
+    <button class="vote-btn" data-weapon="Lightning"><span class="emoji">⚡</span><span class="label">Lightning</span><span class="count">0</span></button>
+    <button class="vote-btn" data-weapon="Gravity"><span class="emoji">🌀</span><span class="label">Gravity</span><span class="count">0</span></button>
+  </div>
+  <button class="vote-reset" id="voteReset">Reset demo votes</button>
+</section>
+
+<!-- STREAM ARCHIVE -->
+<section id="streams">
+  <div class="section-header">
+    <span class="section-num">08</span>
+    <h2 class="section-title">Stream Archive</h2>
+    <div class="section-line"></div>
+  </div>
+  <div id="streamArchiveContainer"></div>
+</section>
+
+<!-- SHORTS -->
+<section id="shorts">
+  <div class="section-header">
+    <span class="section-num">09</span>
+    <h2 class="section-title">Recent Signals</h2>
+    <div class="section-line"></div>
+  </div>
+  <div id="shortsContainer"></div>
+</section>
 
 <section id="connect">
   <h2 class="connect-title">Find Me Online</h2>
@@ -1197,12 +1448,12 @@
 <!-- FOOTER -->
 <footer>
   <span class="footer-text">© 2026 · Kirthik Raj · Built with curiosity &amp; caffeine</span>
-  <div class="footer-status">
+  <div class="footer-status" id="footerStatus">
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="margin-right:2px">
       <polyline points="7,1 13,7 7,13" stroke="#4cff72" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       <line x1="1" y1="7" x2="13" y2="7" stroke="#4cff72" stroke-width="1.5" stroke-linecap="round"/>
     </svg>
-    Available for collabs
+    <span id="footerStatusText">Available for collabs</span>
   </div>
 </footer>
 
@@ -1227,7 +1478,7 @@
   })();
 
   // Cursor scale on hover
-  document.querySelectorAll('a, button, .work-card').forEach(el => {
+  document.querySelectorAll('a, button, .work-card, .vote-btn').forEach(el => {
     el.addEventListener('mouseenter', () => {
       cursor.style.width  = '6px';
       cursor.style.height = '6px';
@@ -1527,6 +1778,261 @@
     requestAnimationFrame(drawFrame);
   }
   drawFrame();
+})();
+</script>
+
+<!-- ══════════════════════════════════════════════════════════
+     RAJ_CONFIG — edit these values as your real project/stream
+     state changes. Everything below reads from this object.
+     ══════════════════════════════════════════════════════════ -->
+<script>
+(function(){
+  const RAJ_CONFIG = {
+    twitch: { login: 'raj_codes' },
+    // YouTube Data API v3: create a restricted API key in Google Cloud Console
+    // (restrict it to "YouTube Data API v3" + your domain) and paste your
+    // channel ID below. Leave blank to skip YouTube live-checking.
+    youtube: { channelId: '', apiKey: '' },
+    currentProject: {
+      name: 'OpenGL Space Shooter',
+      objective: 'Get player rendering + input fully working',
+      nextMission: 'Wire up shooting',
+      repoUrl: '' // paste your GitHub repo link here once it's public
+    },
+    // state: 'done' | 'current' | 'upcoming' — edit as you actually finish things
+    milestones: [
+      { label: 'Window',    state: 'done' },
+      { label: 'Renderer',  state: 'done' },
+      { label: 'Player',    state: 'current' },
+      { label: 'Textures',  state: 'upcoming' },
+      { label: 'Shooting',  state: 'upcoming' },
+      { label: 'Enemies',   state: 'upcoming' },
+      { label: 'Collision', state: 'upcoming' },
+      { label: 'Particles', state: 'upcoming' },
+      { label: 'Boss',      state: 'upcoming' },
+      { label: 'Polish',    state: 'upcoming' }
+    ],
+    // Push {title, date, duration, platform, url} objects here after each stream airs
+    streamArchive: [],
+    // Push {title, url} objects here as Shorts get published
+    shorts: []
+  };
+
+  function bindCursorHover(selector){
+    var cursor = document.getElementById('cursor');
+    var ring = document.getElementById('cursorRing');
+    if(!cursor || !ring) return;
+    document.querySelectorAll(selector).forEach(function(el){
+      el.addEventListener('mouseenter', function(){
+        cursor.style.width='6px'; cursor.style.height='6px';
+        ring.style.width='56px'; ring.style.height='56px';
+      });
+      el.addEventListener('mouseleave', function(){
+        cursor.style.width='12px'; cursor.style.height='12px';
+        ring.style.width='36px'; ring.style.height='36px';
+      });
+    });
+  }
+
+  function renderMilestones(){
+    var list = document.getElementById('milestoneList');
+    if(!list) return;
+    var weighted = 0;
+    RAJ_CONFIG.milestones.forEach(function(m){
+      var li = document.createElement('li');
+      li.className = 'milestone ' + m.state;
+      var mark = m.state === 'done' ? '✓' : (m.state === 'current' ? '◉' : '○');
+      li.innerHTML = '<span class="mk">' + mark + '</span><span>' + m.label + '</span>';
+      list.appendChild(li);
+      if(m.state === 'done') weighted += 1;
+      else if(m.state === 'current') weighted += 0.5;
+    });
+    var total = RAJ_CONFIG.milestones.length;
+    var pct = Math.round((weighted/total)*100);
+    var currentM = RAJ_CONFIG.milestones.find(function(m){ return m.state === 'current'; });
+
+    var fill = document.getElementById('buildProgressFill');
+    if(fill) requestAnimationFrame(function(){ fill.style.width = pct + '%'; });
+
+    var pctEl = document.getElementById('buildProgressPct');
+    if(pctEl) pctEl.textContent = pct + '%';
+
+    var stageEl = document.getElementById('buildProgressStageLabel');
+    if(stageEl) stageEl.textContent = currentM ? ('Currently building: ' + currentM.label) : RAJ_CONFIG.currentProject.name;
+
+    var heroStat = document.getElementById('heroProgressStat');
+    if(heroStat) heroStat.textContent = pct + '%';
+
+    var ccProgress = document.getElementById('ccProgress');
+    if(ccProgress) ccProgress.textContent = pct + '%' + (currentM ? (' — ' + currentM.label) : '');
+
+    var ccObjective = document.getElementById('ccObjective');
+    if(ccObjective) ccObjective.textContent = RAJ_CONFIG.currentProject.objective;
+
+    var ccNextMission = document.getElementById('ccNextMission');
+    if(ccNextMission) ccNextMission.textContent = RAJ_CONFIG.currentProject.nextMission;
+
+    var sourceBtn = document.getElementById('buildSourceBtn');
+    if(sourceBtn && RAJ_CONFIG.currentProject.repoUrl){
+      sourceBtn.href = RAJ_CONFIG.currentProject.repoUrl;
+      sourceBtn.target = '_blank';
+      sourceBtn.removeAttribute('aria-disabled');
+    }
+  }
+
+  function setLiveUI(isLive, platform){
+    var pill = document.getElementById('heroStatusPill');
+    var pillText = document.getElementById('heroStatusText');
+    var watchBtn = document.getElementById('heroWatchBtn');
+    var buildBtn = document.getElementById('buildWatchBtn');
+    var ccStatus = document.getElementById('ccStatus');
+    var footerText = document.getElementById('footerStatusText');
+    var twitchUrl = 'https://www.twitch.tv/' + RAJ_CONFIG.twitch.login;
+    var liveUrl = platform === 'youtube' ? 'https://www.youtube.com/@rajcodesz/live' : twitchUrl;
+
+    if(isLive){
+      if(pill) pill.classList.add('is-live');
+      if(pillText) pillText.textContent = 'Live Now';
+      if(watchBtn){ watchBtn.textContent = '● Live — Watch Now'; watchBtn.href = liveUrl; }
+      if(buildBtn){ buildBtn.textContent = '● Watch Build Live'; buildBtn.href = liveUrl; }
+      if(ccStatus){ ccStatus.textContent = 'LIVE'; ccStatus.className = 'cc-val is-live'; }
+      if(footerText) footerText.textContent = '● Live now';
+    } else {
+      if(pill) pill.classList.remove('is-live');
+      if(pillText) pillText.textContent = 'Offline';
+      if(watchBtn){ watchBtn.textContent = '○ Offline — Next Stream'; watchBtn.href = twitchUrl; }
+      if(buildBtn){ buildBtn.textContent = 'Watch Build Live'; buildBtn.href = twitchUrl; }
+      if(ccStatus){ ccStatus.textContent = 'OFFLINE'; ccStatus.className = 'cc-val is-offline'; }
+      if(footerText) footerText.textContent = 'Available for collabs';
+    }
+    var lastChecked = document.getElementById('ccLastChecked');
+    if(lastChecked) lastChecked.textContent = new Date().toLocaleTimeString();
+  }
+
+  // Unofficial: uses the same public Client-Id Twitch's own web player uses —
+  // no secret involved, read-only, but undocumented and could break if Twitch
+  // changes their GQL schema. A hardened version would run a small serverless
+  // function holding your real Twitch client secret and expose a JSON status
+  // endpoint for this page to poll instead.
+  async function checkTwitchLive(){
+    try {
+      var res = await fetch('https://gql.twitch.tv/gql', {
+        method: 'POST',
+        headers: { 'Client-Id': 'kimne78kx3ncx6brgo4mv6wki5h1ko', 'Content-Type': 'application/json' },
+        body: JSON.stringify([{
+          operationName: 'StreamStatus',
+          query: 'query($login:String!){user(login:$login){stream{id}}}',
+          variables: { login: RAJ_CONFIG.twitch.login }
+        }])
+      });
+      var data = await res.json();
+      return !!(data && data[0] && data[0].data && data[0].data.user && data[0].data.user.stream);
+    } catch(e) { return false; }
+  }
+
+  async function checkYouTubeLive(){
+    if(!RAJ_CONFIG.youtube.apiKey || !RAJ_CONFIG.youtube.channelId) return false;
+    try {
+      var url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId='
+        + RAJ_CONFIG.youtube.channelId + '&eventType=live&type=video&key=' + RAJ_CONFIG.youtube.apiKey;
+      var res = await fetch(url);
+      var data = await res.json();
+      return !!(data && data.items && data.items.length > 0);
+    } catch(e) { return false; }
+  }
+
+  async function refreshLiveStatus(){
+    var twitchLive = await checkTwitchLive();
+    if(twitchLive){ setLiveUI(true, 'twitch'); return; }
+    var ytLive = await checkYouTubeLive();
+    setLiveUI(ytLive, 'youtube');
+  }
+
+  // Chat Lab demo — client-local only (localStorage), NOT a shared/live tally.
+  // Wire real votes to Twitch/YouTube chat commands once you're streaming.
+  function initChatLab(){
+    var grid = document.getElementById('voteGrid');
+    if(!grid) return;
+    var KEY = 'rajcodes_chatlab_votes_demo';
+    var votes = {};
+    try { votes = JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ votes = {}; }
+
+    function render(){
+      grid.querySelectorAll('.vote-btn').forEach(function(btn){
+        var w = btn.dataset.weapon;
+        btn.querySelector('.count').textContent = votes[w] || 0;
+      });
+    }
+    grid.querySelectorAll('.vote-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var w = btn.dataset.weapon;
+        votes[w] = (votes[w]||0) + 1;
+        try { localStorage.setItem(KEY, JSON.stringify(votes)); } catch(e){}
+        render();
+      });
+    });
+    var resetBtn = document.getElementById('voteReset');
+    if(resetBtn) resetBtn.addEventListener('click', function(){
+      votes = {};
+      try { localStorage.removeItem(KEY); } catch(e){}
+      render();
+    });
+    render();
+  }
+
+  // Real data slots into RAJ_CONFIG.streamArchive / .shorts — empty-state until then.
+  function renderArchive(){
+    var container = document.getElementById('streamArchiveContainer');
+    if(!container) return;
+    if(!RAJ_CONFIG.streamArchive.length){
+      container.innerHTML = '<div class="empty-state"><p>No streams archived yet — the first one goes up after launch.</p>'
+        + '<a href="https://www.twitch.tv/' + RAJ_CONFIG.twitch.login + '" class="btn-outline" target="_blank">Watch Live</a></div>';
+      bindCursorHover('#streamArchiveContainer a');
+      return;
+    }
+    var grid = document.createElement('div');
+    grid.className = 'archive-grid';
+    RAJ_CONFIG.streamArchive.forEach(function(s){
+      var card = document.createElement('a');
+      card.href = s.url; card.target = '_blank'; card.className = 'archive-card';
+      card.style.display = 'block'; card.style.textDecoration = 'none'; card.style.color = 'inherit';
+      card.innerHTML = '<span class="plat">' + s.platform + ' · ' + s.date + '</span>'
+        + '<div class="ttl">' + s.title + '</div><div class="meta">' + s.duration + '</div>';
+      grid.appendChild(card);
+    });
+    container.appendChild(grid);
+    bindCursorHover('#streamArchiveContainer a');
+  }
+
+  function renderShorts(){
+    var container = document.getElementById('shortsContainer');
+    if(!container) return;
+    if(!RAJ_CONFIG.shorts.length){
+      container.innerHTML = '<div class="empty-state"><p>No Shorts yet — clipped from the first stream.</p>'
+        + '<a href="https://www.youtube.com/@rajcodesz/shorts" class="btn-outline" target="_blank">YouTube Shorts</a></div>';
+      bindCursorHover('#shortsContainer a');
+      return;
+    }
+    var grid = document.createElement('div');
+    grid.className = 'shorts-grid';
+    RAJ_CONFIG.shorts.forEach(function(s){
+      var card = document.createElement('a');
+      card.href = s.url; card.target = '_blank'; card.className = 'short-card';
+      card.innerHTML = '<span class="ttl">' + s.title + '</span>';
+      grid.appendChild(card);
+    });
+    container.appendChild(grid);
+    bindCursorHover('#shortsContainer a');
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    renderMilestones();
+    initChatLab();
+    renderArchive();
+    renderShorts();
+    refreshLiveStatus();
+    setInterval(refreshLiveStatus, 90000);
+  });
 })();
 </script>
 </body>
